@@ -1,7 +1,9 @@
+import sys
 import plistlib
 import json
 from datetime import date, datetime
-import sys
+import urllib.parse
+
 
 # 引数の個数のチェック
 args = sys.argv
@@ -51,6 +53,7 @@ for trackID in tracks.keys():
     trackObj.setdefault('Artwork Count')
     trackObj.setdefault('Album Artist')
     trackObj.setdefault('Play Count')
+    trackObj.setdefault('Location')
 
     # キー名の変更
     trackObj['TrackID'] = trackObj.pop('Track ID')
@@ -65,6 +68,9 @@ for trackID in tracks.keys():
     trackObj['ArtworkCount'] = trackObj.pop('Artwork Count')
     trackObj['AlbumArtist'] = trackObj.pop('Album Artist')
     trackObj['PlayCount'] = trackObj.pop('Play Count')
+
+    # Location, URLデコードした値を出力する
+    trackObj['Location'] = urllib.parse.unquote(trackObj.pop('Location'))
 
     # 配列への追加
     ary.get('Tracks').append(trackObj)
