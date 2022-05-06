@@ -3,8 +3,13 @@ import json
 from datetime import date, datetime
 import sys
 
-# 読み込むプロパティリストファイルのパス
+# 引数の個数のチェック
 args = sys.argv
+if len(args) != 2:
+    print ("引数の数が間違っています")
+    sys.exit()
+
+# 読み込むプロパティリストファイルのパスを取得
 PLIST_PATH = args[1]
 
 # ディクショナリを作成
@@ -16,9 +21,11 @@ with open(PLIST_PATH, 'rb') as fp:
 
 # date, datetimeの変換関数
 def json_serial(obj):
+
     # 日付型の場合には、文字列に変換する
     if isinstance(obj, (datetime, date)):
         return obj.isoformat()
+
     # 上記以外はサポート対象外
     raise TypeError ("Type %s not serializable" % type(obj))
 
